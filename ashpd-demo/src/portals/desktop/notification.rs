@@ -1,10 +1,11 @@
 use adw::{prelude::*, subclass::prelude::*};
-use ashpd::desktop::notification::{Button, Notification, NotificationProxy, Priority};
+use ashpd::desktop::{Icon, notification::{Button, Notification, NotificationProxy, Priority}};
 use futures_util::stream::StreamExt;
 use gtk::glib;
 
 use self::button::NotificationButton;
 use crate::widgets::{PortalPage, PortalPageExt, PortalPageImpl};
+
 
 mod imp {
     use super::*;
@@ -18,6 +19,14 @@ mod imp {
         pub title_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub body_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub icon_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub grouping_id_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub grouping_title_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
+        pub grouping_icon_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
         pub priority_combo: TemplateChild<adw::ComboRow>,
         #[template_child]
@@ -105,6 +114,10 @@ impl NotificationPage {
         let notification_id = imp.id_entry.text();
         let title = imp.title_entry.text();
         let body = imp.body_entry.text();
+        let icon = imp.icon_entry.text();
+        let grouping_id = imp.grouping_id_entry.text();
+        let grouping_title = imp.grouping_title_entry.text();
+        let grouping_icon = imp.grouping_icon_entry.text();
         let default_action = imp.default_action_entry.text();
         let default_action_target = imp.default_action_target_entry.text();
         let priority = match imp.priority_combo.selected() {
@@ -119,6 +132,10 @@ impl NotificationPage {
             .default_action(&*default_action)
             .default_action_target(&*default_action_target)
             .body(&*body)
+            .icon(Icon::with_names(&[icon]))
+            .grouping_id(&*grouping_id)
+            .grouping_title(&*grouping_title)
+            .grouping_icon(Icon::with_names(&[grouping_icon]))
             .priority(priority);
 
         for button in self.buttons().into_iter() {

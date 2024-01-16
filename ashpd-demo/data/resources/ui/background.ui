@@ -32,6 +32,11 @@
                     <property name="title" translatable="yes">Command</property>
                   </object>
                 </child>
+                <child>
+                  <object class="AdwEntryRow" id="timer_entry">
+                    <property name="title" translatable="yes">Timer</property>
+                  </object>
+                </child>
               </object>
             </child>
             <child>
@@ -41,8 +46,8 @@
                 <property name="halign">center</property>
                 <property name="action-name">background.request</property>
                 <style>
-                  <class name="pill" />
-                  <class name="suggested-action" />
+                  <class name="pill"/>
+                  <class name="suggested-action"/>
                 </style>
               </object>
             </child>
@@ -60,7 +65,7 @@
                         <property name="valign">center</property>
                         <property name="selectable">True</property>
                         <style>
-                          <class name="dim-label" />
+                          <class name="dim-label"/>
                         </style>
                       </object>
                     </child>
@@ -76,7 +81,23 @@
                         <property name="ellipsize">end</property>
                         <property name="selectable">True</property>
                         <style>
-                          <class name="dim-label" />
+                          <class name="dim-label"/>
+                        </style>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Timer Start</property>
+                    <property name="subtitle" translatable="yes">If the application will be started with a timer.</property>
+                    <child>
+                      <object class="GtkLabel" id="timer_start_label">
+                        <property name="valign">center</property>
+                        <property name="ellipsize">end</property>
+                        <property name="selectable">True</property>
+                        <style>
+                          <class name="dim-label"/>
                         </style>
                       </object>
                     </child>
@@ -87,9 +108,10 @@
           </object>
         </child>
         <style>
-          <class name="page-content" />
+          <class name="page-content"/>
         </style>
       </object>
     </child>
   </template>
 </interface>
+

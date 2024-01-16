@@ -28,6 +28,26 @@
                   </object>
                 </child>
                 <child>
+                  <object class="AdwEntryRow" id="icon_entry">
+                    <property name="title" translatable="yes">Icon</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="grouping_id_entry">
+                    <property name="title" translatable="yes">Grouping ID</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="grouping_title_entry">
+                    <property name="title" translatable="yes">Grouping title</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="AdwEntryRow" id="grouping_icon_entry">
+                    <property name="title" translatable="yes">Grouping icon</property>
+                  </object>
+                </child>
+                <child>
                   <object class="AdwEntryRow" id="default_action_entry">
                     <property name="title" translatable="yes">Default Action</property>
                   </object>

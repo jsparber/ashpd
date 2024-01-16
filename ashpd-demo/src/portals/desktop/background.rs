@@ -21,11 +21,15 @@ mod imp {
         #[template_child]
         pub command_entry: TemplateChild<adw::EntryRow>,
         #[template_child]
+        pub timer_entry: TemplateChild<adw::EntryRow>,
+        #[template_child]
         pub response_group: TemplateChild<adw::PreferencesGroup>,
         #[template_child]
         pub run_bg_label: TemplateChild<gtk::Label>,
         #[template_child]
         pub auto_start_label: TemplateChild<gtk::Label>,
+        #[template_child]
+        pub timer_start_label: TemplateChild<gtk::Label>,
     }
 
     #[glib::object_subclass]

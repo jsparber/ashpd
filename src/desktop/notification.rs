@@ -133,6 +133,16 @@ pub struct Notification {
     icon: Option<Icon>,
     /// The priority for the notification.
     priority: Option<Priority>,
+    /// An ID to grouping notifications from the same app
+    #[zvariant(rename = "grouping-id")]
+    grouping_id: Option<String>,
+    /// A title for the group of notification only used when grouping_id has a value
+    #[zvariant(rename = "grouping-title")]
+    grouping_title: Option<String>,
+    /// A serialized icon (e.g using gio::Icon::serialize) for the group of notification only used
+    /// when grouping_id has a value.
+    #[zvariant(rename = "grouping-icon")]
+    grouping_icon: Option<Icon>,
     /// Name of an action that is exported by the application.
     /// This action will be activated when the user clicks on the notification.
     #[zvariant(rename = "default-action")]
@@ -155,6 +165,9 @@ impl Notification {
             title: title.to_owned(),
             body: None,
             priority: None,
+            grouping_id: None,
+            grouping_title: None,
+            grouping_icon: None,
             icon: None,
             default_action: None,
             default_action_target: None,
@@ -180,6 +193,27 @@ impl Notification {
     #[must_use]
     pub fn priority(mut self, priority: impl Into<Option<Priority>>) -> Self {
         self.priority = priority.into();
+        self
+    }
+
+    /// Sets the notification grouping id.
+    #[must_use]
+    pub fn grouping_id<'a>(mut self, grouping_id: impl Into<Option<&'a str>>) -> Self {
+        self.grouping_id = grouping_id.into().map(ToOwned::to_owned);
+        self
+    }
+
+    /// Sets the notification grouping title.
+    #[must_use]
+    pub fn grouping_title<'a>(mut self, grouping_title: impl Into<Option<&'a str>>) -> Self {
+        self.grouping_title = grouping_title.into().map(ToOwned::to_owned);
+        self
+    }
+
+    /// Sets a grouping icon for the notification.
+    #[must_use]
+    pub fn grouping_icon(mut self, grouping_icon: impl Into<Option<Icon>>) -> Self {
+        self.grouping_icon = grouping_icon.into();
         self
     }
 
