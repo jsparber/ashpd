@@ -1,7 +1,7 @@
 use adw::{prelude::*, subclass::prelude::*};
-use ashpd::desktop::notification::{Button, Notification, NotificationProxy, Priority};
+use ashpd::desktop::{Icon, notification::{Button, Notification, NotificationProxy, Priority}};
 use futures_util::stream::StreamExt;
-use gtk::glib;
+use gtk::{glib, gio};
 
 use self::button::NotificationButton;
 use crate::widgets::{PortalPage, PortalPageExt, PortalPageImpl};
@@ -119,10 +119,15 @@ impl NotificationPage {
             _ => unimplemented!(),
         };
 
+        use std::fs::File;
+        use std::os::fd::AsRawFd;
+        let fd: std::os::fd::OwnedFd = File::open("/home/julian/Downloads/github.svg").unwrap().into();
+
         let mut notification = Notification::new(&title)
             .default_action(&*default_action)
             .default_action_target(&*default_action_target)
             .body(&*body)
+            .icon(Icon::Handle(fd.as_raw_fd()))
             .priority(priority);
 
         for button in self.buttons().into_iter() {

@@ -1,3 +1,4 @@
+use std::os::fd::{AsRawFd, RawFd};
 use serde::{
     de,
     ser::{Serialize, SerializeTuple},
@@ -19,6 +20,8 @@ pub enum Icon {
     Names(Vec<String>),
     /// Icon bytes.
     Bytes(Vec<u8>),
+    /// Icon bytes.
+    Handle(RawFd),
 }
 
 impl Icon {
@@ -90,6 +93,10 @@ impl Serialize for Icon {
                 tuple.serialize_element("bytes")?;
                 tuple.serialize_element(&self.inner_bytes())?;
             }
+            Self::Handle(fd) => {
+                tuple.serialize_element("file-descriptor")?;
+                tuple.serialize_element(&zvariant::Value::from(<zvariant::Fd>::from(fd)))?;
+            }
         }
         tuple.end()
     }
@@ -124,6 +131,10 @@ impl<'de> Deserialize<'de> for Icon {
                     names.push(name.as_str().to_owned());
                 }
                 Ok(Self::Names(names))
+            }
+            "file-descriptor" => {
+                let fd = data.downcast_ref::<zvariant::Fd>().unwrap().as_raw_fd();
+                Ok(Self::Handle(fd))
             }
             _ => Err(de::Error::custom("Invalid Icon type")),
         }
@@ -162,6 +173,10 @@ impl TryFrom<&OwnedValue> for Icon {
                     names.push(name.as_str().to_owned());
                 }
                 Ok(Self::Names(names))
+            }
+            "file-descriptor" => {
+                let fd = fields[1].downcast_ref::<zvariant::Fd>().unwrap().as_raw_fd();
+                Ok(Self::Handle(fd))
             }
             _ => Err(Error::ParseError("Invalid Icon type")),
         }
